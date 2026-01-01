@@ -19,15 +19,13 @@ void main() async {
   /// 2/5: set navigator key to ZegoUIKitPrebuiltCallInvitationService
   ZegoUIKitPrebuiltCallInvitationService().setNavigatorKey(navigatorKey);
 
-  ZegoUIKit().initLog().then((value) {
-    ZegoUIKitPrebuiltCallInvitationService().useSystemCallingUI(
-      [ZegoUIKitSignalingPlugin()],
-    );
+  ZegoUIKitPrebuiltCallInvitationService().useSystemCallingUI(
+    [ZegoUIKitSignalingPlugin()],
+  );
 
-    // FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+  // FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
 
-    runApp(MyApp(navigatorKey: navigatorKey));
-  });
+  runApp(MyApp(navigatorKey: navigatorKey));
 }
 
 

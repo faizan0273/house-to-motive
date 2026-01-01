@@ -36,7 +36,7 @@ class LoginWithEmailScreen extends StatelessWidget {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setBool('isGuest', true);
     Get.to(
-          () => HomePage(),
+      () => HomePage(),
       transition: Transition.downToUp,
     );
   }
@@ -235,9 +235,11 @@ class LoginWithEmailScreen extends StatelessWidget {
                               ),
                       ),
                       SizedBox(height: screenHeight * 0.03),
-                      CustomButton(title: 'Continue as Guest', ontap: () {
-                        continueAsGuest();
-                      }),
+                      CustomButton(
+                          title: 'Continue as Guest',
+                          ontap: () {
+                            continueAsGuest();
+                          }),
                       SizedBox(height: screenHeight * 0.03),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -298,17 +300,17 @@ class AuthenticationController extends GetxController {
         }
       }
     } else {
-      final GoogleSignIn googleSignIn = GoogleSignIn();
+      final GoogleSignIn googleSignIn = GoogleSignIn.instance;
+      await googleSignIn.initialize();
 
       final GoogleSignInAccount? googleSignInAccount =
-          await googleSignIn.signIn();
+          await googleSignIn.authenticate();
 
       if (googleSignInAccount != null) {
         final GoogleSignInAuthentication googleSignInAuthentication =
-            await googleSignInAccount.authentication;
+            googleSignInAccount.authentication;
 
         final AuthCredential credential = GoogleAuthProvider.credential(
-          accessToken: googleSignInAuthentication.accessToken,
           idToken: googleSignInAuthentication.idToken,
         );
 
@@ -347,7 +349,8 @@ class AuthenticationController extends GetxController {
       // Web-specific implementation
       try {
         final OAuthProvider authProvider = OAuthProvider("apple.com");
-        final UserCredential userCredential = await auth.signInWithPopup(authProvider);
+        final UserCredential userCredential =
+            await auth.signInWithPopup(authProvider);
         user = userCredential.user;
       } catch (e) {
         if (kDebugMode) {
@@ -399,7 +402,7 @@ class AuthenticationController extends GetxController {
   }
 
   Future<void> signOut() async {
-    final GoogleSignIn googleSignIn = GoogleSignIn();
+    final GoogleSignIn googleSignIn = GoogleSignIn.instance;
 
     try {
       if (!kIsWeb) {
@@ -424,7 +427,7 @@ class AuthenticationController extends GetxController {
     if (status == TrackingStatus.notDetermined) {
       // Show the tracking authorization prompt
       final newStatus =
-      await AppTrackingTransparency.requestTrackingAuthorization();
+          await AppTrackingTransparency.requestTrackingAuthorization();
       debugPrint('Tracking Authorization Status: $newStatus');
     } else {
       debugPrint('Tracking Authorization Status: $status');

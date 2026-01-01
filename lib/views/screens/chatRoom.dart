@@ -11,6 +11,7 @@ import 'package:house_to_motive/utils/utils.dart';
 import 'package:intl/intl.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:zego_uikit_prebuilt_call/zego_uikit_prebuilt_call.dart';
+import 'package:zego_uikit/zego_uikit.dart';
 
 class ChatPage extends StatefulWidget {
   const ChatPage({
@@ -609,22 +610,25 @@ class _ChatPageState extends State<ChatPage> {
     void Function(String code, String message, List<String>)? onCallFinished,
   }) {
     return ZegoSendCallInvitationButton(
-      icon: ButtonIcon(
-          backgroundColor: Colors.transparent,
-          icon: isVideoCall
-              ? const Icon(
-                  Icons.video_call,
-                  size: 24,
-                  color: Colors.white,
-                )
-              : const Icon(
-                  Icons.call,
-                  size: 20,
-                  color: Colors.white,
-                )),
       isVideoCall: isVideoCall,
-      invitees: [ZegoUIKitUser(id: inviteeUserID, name: widget.name)],
+      invitees: [
+        ZegoUIKitUser(id: inviteeUserID, name: widget.name)
+      ],
       resourceID: 'zego_call',
+      icon: ButtonIcon(
+        backgroundColor: Colors.transparent,
+        icon: isVideoCall
+            ? const Icon(
+                Icons.video_call,
+                size: 24,
+                color: Colors.white,
+              )
+            : const Icon(
+                Icons.call,
+                size: 20,
+                color: Colors.white,
+              ),
+      ),
       iconSize: const Size(35, 35),
       buttonSize: const Size(50, 50),
       onPressed: onCallFinished,
